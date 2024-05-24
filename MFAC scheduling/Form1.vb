@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿
+Imports System.Threading
 Imports System.IO
 Imports System.Net
 Imports HtmlAgilityPack
@@ -8,12 +9,20 @@ Imports HtmlAgilityPack
 
 
 Public Class WorkApp
+    Public lstHeadguards As New List(Of String)
     Dim totalName As String
     Dim totalTimeIn As Integer
     Dim totalTimeOut As Integer
     Public nameList As List(Of person)
-    Public removeList As List(Of person)
+    Public removeList As List(Of String)
     Public slideList As List(Of person)
+    'Public timeInList As New Dictionary(Of String, List(Of String)) From {{"11", New List(Of String)({})}, {"12", New List(Of String)({})}, {"1", New List(Of String)({})}, {"2", New List(Of String)({})}, {"3", New List(Of String)({})}, {"4", New List(Of String)({})}, {"5", New List(Of String)({})}, {"6", New List(Of String)({})}, {"7", New List(Of String)({})}, {"8", New List(Of String)({})}}
+    Public timeInList As List(Of List(Of String))
+    Public finalGroup As New Dictionary(Of String, List(Of String))
+    Public lstTimeSlots As New List(Of Integer)
+    Public groupsOut As New Dictionary(Of Integer, List(Of String))()
+    Public groupsIn As New Dictionary(Of Integer, List(Of String))()
+
 
     Dim screenWidth As Integer = My.Computer.Screen.Bounds.Width
     Dim screenHeight As Integer = My.Computer.Screen.Bounds.Height
@@ -50,10 +59,16 @@ Public Class WorkApp
                     Dim tempStr As String() = i.Split($"{Chr(34)}")
                     If tempStr(5) = "Lifeguard-MFAC" Then
                         lifeguardflag = True
+                        Dim color As String = i.Split("(")(4)
+                        Debug.Print(color)
                         i = i.Split(",")(10)
 
                         If i(1) Like "[A-Z]" Then
+                            If color.Substring(0, 1) = "9" Then
+                                lstHeadguards.Add(nameConverter(i))
+                            End If
                             storeData(i)
+
                         End If
 
                         Continue For
@@ -66,14 +81,26 @@ Public Class WorkApp
 
                         If strLifeguard(1) Like "[A-Z]" Then
                             storeData(strLifeguard)
+                            Dim color As String = i.Split("(")(3)
+                            Debug.Print(color)
+                            If color.Substring(0, 1) = "9" Then
+                                lstHeadguards.Add(nameConverter(strLifeguard))
+                            End If
                         End If
                     Else
                         lifeguardflag = False
                     End If
                 End If
             End If
-
         Next
+
+
+
+
+
+        For Each i In lstHeadguards
+                Debug.Print(i)
+            Next
     End Sub
 
     Public Sub storeData(ByVal i As String)
@@ -81,7 +108,6 @@ Public Class WorkApp
         ' Debug.Print(name)
         Dim timeIn As String = GetTimeIn(i)
         timeIn = inTimeConverter(timeIn)
-        'Debug.Print(timeIn)
         Dim timeOut As String = GetTimeOut(i)
         timeOut = outTimeConverter(timeOut)
         'Debug.Print(timeOut)
@@ -92,11 +118,14 @@ Public Class WorkApp
         current.timeOut = timeOut
 
         nameList.Add(current)
-        For Each a In nameList
-            Debug.Print(a.name)
-            Debug.Print(a.timeIn)
-            Debug.Print(a.timeOut)
-        Next
+
+
+
+        'For Each a In nameList
+        'Debug.Print(a.name)
+        'Debug.Print(a.timeIn)
+        'Debug.Print(a.timeOut)
+        'Next
     End Sub
 
     Public Function outTimeConverter(ByVal i As String)
@@ -171,10 +200,11 @@ Public Class WorkApp
         'converts "12:30pm" to "1"
         Dim key As Integer
         Dim newI As Integer
+        Dim colon As Integer = 0
         If i.Contains(":") Then
             key = i.IndexOf(":")
             i.Remove(key, 3)
-            newI = Val(i) + 1
+            colon = 1
         End If
         If i.Contains("12") Then
             Return 12
@@ -189,7 +219,9 @@ Public Class WorkApp
             i.Substring(0, key)
             newI = Val(i) + 12
         End If
-
+        If colon = 1 Then
+            newI += 1
+        End If
         Return newI
 
     End Function
@@ -216,76 +248,98 @@ Public Class WorkApp
 
         getData()
         parceData()
+
+
+        For Each entry In nameList
+            If Not groupsIn.ContainsKey(entry.timeIn) Then
+                groupsIn.Add(entry.timeIn, New List(Of String))
+            End If
+            groupsIn(entry.timeIn).Add(entry.name)
+        Next
+
+
+        For Each entry In nameList
+            If Not groupsOut.ContainsKey(entry.timeOut) Then
+                groupsOut.Add(entry.timeOut, New List(Of String))
+            End If
+            groupsOut(entry.timeOut).Add(entry.name)
+        Next
+
+        For Each i In nameList
+            If Not lstTimeSlots.Contains(i.timeIn) Then
+                lstTimeSlots.Add(i.timeIn)
+            End If
+
+        Next
+        For Each i In nameList
+            If Not lstTimeSlots.Contains(i.timeOut) Then
+                lstTimeSlots.Add(i.timeOut)
+            End If
+        Next
+
+        lstTimeSlots.Sort()
+
+
+        For Each i In lstTimeSlots
+            If (lstTimeSlots.IndexOf(i) < (lstTimeSlots.Count - 1)) Then
+                finalGroup.Add(i & "-" & (lstTimeSlots(lstTimeSlots.IndexOf(i) + 1)), New List(Of String))
+            End If
+        Next
+
+        For Each i In nameList
+            For Each key In finalGroup.Keys
+                If key.Substring(0, 2) >= i.timeIn Then
+                    finalGroup(key).Add(i.name)
+                End If
+                If key.Substring(3, 2) = i.timeOut Then
+                    Exit For
+                End If
+            Next
+        Next
+
+        'For Each kvp As KeyValuePair(Of String, List(Of String)) In finalGroup
+        '    Debug.Print("Key: " & kvp.Key)
+
+        '    ' Iterate through the list of strings and print them
+        '    For Each value As String In kvp.Value
+        '        Debug.Print("Value: " & value)
+        '    Next
+        'Next
+
+        'For Each kvp In finalGroup
+        '    Debug.Print(kvp.Key.ToString)
+        'Next
+
+
+        'For Each kvp In groupsOut
+        '    Debug.Print("Time: " & kvp.Key.ToString())
+        '    Debug.Print("Names: " & String.Join(", ", kvp.Value))
+        'Next
+
         If (nameList.Count < 3) Then
             picError.Visible = True
             lblError.Visible = True
             btnReset.Visible = True
         Else
             Me.Visible = False
-            Head_guard.Visible = True
+            SuggestedHeadguard.Visible = True
         End If
+    End Sub
+
+    Public Sub within(timeIn As Integer, timeOut As Integer)
+
     End Sub
 
     Private Sub WorkApp_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         nameList = New List(Of person)
-        removeList = New List(Of person)
+        removeList = New List(Of String)
         slideList = New List(Of person)
         lblError.Visible = False
         btnReset.Visible = False
 
-        '    For Each x As Label In Me.Controls.OfType(Of Label)
-        '        x.Width = newWidth(x.Width)
-        '        x.Height = newHeight(x.Height)
-        '        x.Location = New Point(2 * newWidth(x.Location.X), 2 * newHeight(x.Location.Y))
+        Me.BackgroundImageLayout = ImageLayout.Stretch
 
-        '    Next
-        '    For Each x As PictureBox In Me.Controls.OfType(Of PictureBox)
-        '        x.Width = newWidth(x.Width)
-        '        x.Height = newHeight(x.Height)
-        '        x.Location = New Point(2 * newWidth(x.Location.X), 2 * newHeight(x.Location.Y))
-
-
-        '    Next
-
-        '    For Each x As Button In Me.Controls.OfType(Of Button)
-        '        x.Width = newWidth(x.Width)
-        '        x.Height = newHeight(x.Height)
-        '        x.Location = New Point(1.5 * newWidth(x.Location.X), 2 * newHeight(x.Location.Y))
-
-        '    Next
-        '    'btnExtract.Location = New Point(newWidth(btnExtract.Location.X), newHeight(btnExtract.Location.Y))
-
-
-        '    'btnExtract.Width = newWidth(btnExtract.Width)
-        '    'btnReset.Width = newWidth(btnReset.Width)
-        '    'lblError.Width = newWidth(lblError.Width)
-        '    'lblInstructions.Width = newWidth(lblInstructions.Width)
-        '    'lblOutput.Width = newWidth(lblOutput.Width)
-        '    'lblTitle.Width = newWidth(lblTitle.Width)
-        '    'picError.Width = newWidth(picError.Width)
-
-        '    'btnExtract.Height = newHeight(btnExtract.Height)
-        '    'btnReset.Height = newHeight(btnReset.Height)
-        '    'lblError.Height = newHeight(lblError.Height)
-        '    'lblInstructions.Height = newHeight(lblInstructions.Height)
-        '    'lblOutput.Height = newHeight(lblOutput.Height)
-        '    'lblTitle.Height = newHeight(lblTitle.Height)
-        '    'picError.Height = newHeight(picError.Height)
     End Sub
-
-    'Public Function newX(ByVal x As Integer)
-
-    'End Function
-    'Public Function newWidth(ByVal width As Integer)
-
-    '    Return (width * screenWidth / 818)
-
-    'End Function
-
-    'Public Function newHeight(ByVal height As Integer)
-    '    Return (height * screenHeight / 497)
-    'End Function
-
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         lblError.Visible = False
         nameList.Clear()

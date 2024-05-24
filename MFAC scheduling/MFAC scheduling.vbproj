@@ -48,8 +48,14 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.60.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.60\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -105,10 +111,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Slides.Designer.vb">
-      <DependentUpon>Slides.vb</DependentUpon>
+    <Compile Include="Rotation.Designer.vb">
+      <DependentUpon>Rotation.vb</DependentUpon>
     </Compile>
-    <Compile Include="Slides.vb">
+    <Compile Include="Rotation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SuggestedHeadguard.Designer.vb">
+      <DependentUpon>SuggestedHeadguard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SuggestedHeadguard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TopSlides.Designer.vb">
+      <DependentUpon>TopSlides.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TopSlides.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -125,8 +143,14 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Slides.resx">
-      <DependentUpon>Slides.vb</DependentUpon>
+    <EmbeddedResource Include="Rotation.resx">
+      <DependentUpon>Rotation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SuggestedHeadguard.resx">
+      <DependentUpon>SuggestedHeadguard.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TopSlides.resx">
+      <DependentUpon>TopSlides.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +168,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ErrorMessage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 092536.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 092545.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 092556.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 092905.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 092954.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 093015.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 093038.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 093230.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 093044.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-05-24 093050.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2021-06-23 %281%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

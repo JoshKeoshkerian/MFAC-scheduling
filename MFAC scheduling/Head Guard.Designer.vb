@@ -27,8 +27,12 @@ Partial Class Head_guard
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lstbHeadguard = New System.Windows.Forms.ListBox()
         Me.lblTitle = New System.Windows.Forms.Label()
-        Me.btnNext = New System.Windows.Forms.Button()
+        Me.btnNextTimeSlot = New System.Windows.Forms.Button()
         Me.btnGoBack = New System.Windows.Forms.Button()
+        Me.btnContinue = New System.Windows.Forms.Button()
+        Me.lblDisplayTimeSlot = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblHeadguard
@@ -52,9 +56,9 @@ Partial Class Head_guard
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(231, 76)
+        Me.Label1.Location = New System.Drawing.Point(274, 63)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(271, 43)
+        Me.Label1.Size = New System.Drawing.Size(271, 42)
         Me.Label1.TabIndex = 9
         Me.Label1.Text = "Select headguard (if multiple, hit confirm one at a time)"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -71,20 +75,20 @@ Partial Class Head_guard
         'lblTitle
         '
         Me.lblTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 19.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTitle.Location = New System.Drawing.Point(227, 25)
+        Me.lblTitle.Location = New System.Drawing.Point(270, 27)
         Me.lblTitle.Name = "lblTitle"
-        Me.lblTitle.Size = New System.Drawing.Size(309, 51)
+        Me.lblTitle.Size = New System.Drawing.Size(309, 36)
         Me.lblTitle.TabIndex = 12
         Me.lblTitle.Text = "Select Headguard"
         '
-        'btnNext
+        'btnNextTimeSlot
         '
-        Me.btnNext.Location = New System.Drawing.Point(674, 391)
-        Me.btnNext.Name = "btnNext"
-        Me.btnNext.Size = New System.Drawing.Size(75, 23)
-        Me.btnNext.TabIndex = 13
-        Me.btnNext.Text = "Next"
-        Me.btnNext.UseVisualStyleBackColor = True
+        Me.btnNextTimeSlot.Location = New System.Drawing.Point(434, 391)
+        Me.btnNextTimeSlot.Name = "btnNextTimeSlot"
+        Me.btnNextTimeSlot.Size = New System.Drawing.Size(187, 23)
+        Me.btnNextTimeSlot.TabIndex = 13
+        Me.btnNextTimeSlot.Text = "Next Time Slot"
+        Me.btnNextTimeSlot.UseVisualStyleBackColor = True
         '
         'btnGoBack
         '
@@ -95,20 +99,54 @@ Partial Class Head_guard
         Me.btnGoBack.Text = "Remove "
         Me.btnGoBack.UseVisualStyleBackColor = True
         '
+        'btnContinue
+        '
+        Me.btnContinue.Location = New System.Drawing.Point(668, 391)
+        Me.btnContinue.Name = "btnContinue"
+        Me.btnContinue.Size = New System.Drawing.Size(101, 23)
+        Me.btnContinue.TabIndex = 15
+        Me.btnContinue.Text = "Continue"
+        Me.btnContinue.UseVisualStyleBackColor = True
+        '
+        'lblDisplayTimeSlot
+        '
+        Me.lblDisplayTimeSlot.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDisplayTimeSlot.Location = New System.Drawing.Point(123, 105)
+        Me.lblDisplayTimeSlot.Name = "lblDisplayTimeSlot"
+        Me.lblDisplayTimeSlot.Size = New System.Drawing.Size(171, 23)
+        Me.lblDisplayTimeSlot.TabIndex = 16
+        Me.lblDisplayTimeSlot.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.MFAC_scheduling.My.Resources.Resources.Screenshot_2024_05_24_093038
+        Me.PictureBox1.Location = New System.Drawing.Point(12, 84)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(45, 232)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 17
+        Me.PictureBox1.TabStop = False
+        '
         'Head_guard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(782, 450)
+        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.lblDisplayTimeSlot)
+        Me.Controls.Add(Me.btnContinue)
         Me.Controls.Add(Me.btnGoBack)
-        Me.Controls.Add(Me.btnNext)
+        Me.Controls.Add(Me.btnNextTimeSlot)
         Me.Controls.Add(Me.lblTitle)
         Me.Controls.Add(Me.lblHeadguard)
         Me.Controls.Add(Me.btnConfrimHeadguard)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.lstbHeadguard)
+        Me.MaximumSize = New System.Drawing.Size(800, 500)
         Me.Name = "Head_guard"
         Me.Text = "Head_Guard"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -118,6 +156,9 @@ Partial Class Head_guard
     Friend WithEvents Label1 As Label
     Friend WithEvents lstbHeadguard As ListBox
     Friend WithEvents lblTitle As Label
-    Friend WithEvents btnNext As Button
+    Friend WithEvents btnNextTimeSlot As Button
     Friend WithEvents btnGoBack As Button
+    Friend WithEvents btnContinue As Button
+    Friend WithEvents lblDisplayTimeSlot As Label
+    Friend WithEvents PictureBox1 As PictureBox
 End Class

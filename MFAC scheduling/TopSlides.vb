@@ -1,18 +1,36 @@
-﻿Imports System.Runtime.InteropServices.ComTypes
+﻿Imports System.Windows.Forms.AxHost
 
-Public Class Head_guard
+Public Class TopSlides
 
     Public start As Integer = 0
     Public final As Integer = 1
-    Public start2 As Integer = 0
-    Public final2 As Integer = 1
-    Private Sub Customize_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub rdbSlideNo_CheckedChanged(sender As Object, e As EventArgs) Handles rdbSlideNo.CheckedChanged
 
-        For Each value In WorkApp.finalGroup(WorkApp.lstTimeSlots(start) & "-" & WorkApp.lstTimeSlots(final))
-            lstbHeadguard.Items.Add(value)
-        Next
+        btnContinue.Visible = True
 
-        lblDisplayTimeSlot.Text = (Deconverter(WorkApp.lstTimeSlots(start)) & "-" & Deconverter(WorkApp.lstTimeSlots(final)))
+        If rdbSlideNo.Checked = True Then
+
+            btnConfrimHeadguard.Visible = False
+            btnGoBack.Visible = False
+            btnNextTimeSlot.Visible = False
+            lblDisplayTimeSlot.Visible = False
+            lblHeadguard.Visible = False
+            lstbHeadguard.Visible = False
+
+        End If
+
+        If rdbSlideYes.Checked = True Then
+
+            btnConfrimHeadguard.Visible = True
+            btnGoBack.Visible = True
+            btnNextTimeSlot.Visible = True
+            lblDisplayTimeSlot.Visible = True
+            lblHeadguard.Visible = True
+            lstbHeadguard.Visible = True
+
+        End If
+
+
     End Sub
 
     Public Function Deconverter(i As Integer)
@@ -98,7 +116,7 @@ Public Class Head_guard
 
         Else
             Me.Visible = False
-            TopSlides.Visible = True
+            Rotation.visible = True
         End If
 
         lblHeadguard.Text = "Selected Headguard"
@@ -136,9 +154,24 @@ Public Class Head_guard
 
     Private Sub btnContinue_Click(sender As Object, e As EventArgs) Handles btnContinue.Click
         Me.Visible = False
-        TopSlides.Visible = True
+        Rotation.Visible = True
 
     End Sub
 
+    Private Sub TopSlides_Load(sender As Object, e As EventArgs) Handles Me.Load
+        For Each kvp As KeyValuePair(Of String, List(Of String)) In WorkApp.finalGroup
+            Debug.Print("Key: " & kvp.Key)
 
+            ' Iterate through the list of strings and print them
+            For Each value As String In kvp.Value
+                Debug.Print("Value: " & value)
+            Next
+        Next
+
+        For Each value In WorkApp.finalGroup(WorkApp.lstTimeSlots(start) & "-" & WorkApp.lstTimeSlots(final))
+            lstbHeadguard.Items.Add(value)
+        Next
+
+        lblDisplayTimeSlot.Text = (Deconverter(WorkApp.lstTimeSlots(start)) & "-" & Deconverter(WorkApp.lstTimeSlots(final)))
+    End Sub
 End Class
