@@ -62,9 +62,9 @@ Partial Class WorkApp
         Me.lblTitle.BackColor = System.Drawing.Color.Transparent
         Me.lblTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTitle.ForeColor = System.Drawing.Color.WhiteSmoke
-        Me.lblTitle.Location = New System.Drawing.Point(144, 9)
+        Me.lblTitle.Location = New System.Drawing.Point(121, 9)
         Me.lblTitle.Name = "lblTitle"
-        Me.lblTitle.Size = New System.Drawing.Size(476, 59)
+        Me.lblTitle.Size = New System.Drawing.Size(607, 59)
         Me.lblTitle.TabIndex = 5
         Me.lblTitle.Text = "MFAC Rotation System"
         '
